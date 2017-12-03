@@ -49,7 +49,7 @@ func count1() int {
 		rx = -rx
 	}
 	if ry < 0 {
-		ry = -rx
+		ry = -ry
 	}
 	return rx + ry
 }
