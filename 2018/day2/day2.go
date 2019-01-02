@@ -1,0 +1,329 @@
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func main() {
+	fmt.Println(part1())
+	fmt.Println(part2())
+}
+
+func part1() int {
+
+	twos := 0
+	threes := 0
+
+	for _, line := range parseLines(input) {
+		counts := map[rune]int{}
+		for _, r := range line {
+			counts[r]++
+		}
+		count2 := false
+		count3 := false
+		for _, n := range counts {
+			count2 = count2 || n == 2
+			count3 = count3 || n == 3
+		}
+		if count2 {
+			twos++
+		}
+		if count3 {
+			threes++
+		}
+	}
+
+	return twos * threes
+}
+
+func part2() string {
+
+	lines := parseLines(input)
+
+	for i := range lines {
+		for j := range lines {
+			if offByOne(lines[i], lines[j]) {
+				var result string
+				for k := range lines[i] {
+					if lines[i][k] == lines[j][k] {
+						result += string(lines[i][k])
+					}
+				}
+				return result
+			}
+		}
+	}
+
+	panic("no solution")
+}
+
+func offByOne(a, b string) bool {
+	diff := 0
+	for i := range a {
+		if a[i] != b[i] {
+			diff++
+			if diff > 1 {
+				return false
+			}
+		}
+	}
+	return diff == 1
+}
+
+func parseLines(input string) []string {
+	return strings.Split(strings.TrimSpace(input), "\n")
+}
+
+const input = `
+zihrtxagncfpbsnolxydujjmqv
+zihrtxagwcfpbsoolnydukjyqv
+aihrtxagwcfpbsnoleybmkjmqv
+zihrtxagwcfpbsnolgyduajmrv
+zihrtxgmwcfpbunoleydukjmqv
+zihqtxagwcfpbsnolesdukomqv
+zihgtxagwcfpbsnoleydqkjqqv
+dihrtxagwcqpbsnoleydpkjmqv
+qihrtvagwcfpbsnollydukjmqv
+zihrtgagwcfpbknoleyrukjmqv
+cinrtxagwcfpbsnoleydukjaqv
+zihrtxagwcfubsneleyvukjmqv
+zihrtxagwcfpbsvoleydukvmtv
+zihrtpagwcffbsnolfydukjmqv
+zihrtxagwcfpbsxoleydtkjyqv
+zohrvxugwcfpbsnoleydukjmqv
+zyhrtxagdcfpbsnodeydukjmqv
+zihrtxaghffpbsnoleyduojmqv
+oihrtbagwcfpbsnoleyduejmqv
+zihrtnagwcvpjsnoleydukjmqv
+iihrtxagwcfpbsnoliyaukjmqv
+ziartxagwcfpbsnokeydukjmpv
+eibrtxagwccpbsnoleydukjmqv
+zihrtxagwczwbsaoleydukjmqv
+ziiatuagwcfpbsnoleydukjmqv
+zzhrtxagwckpbsnsleydukjmqv
+cihrtxaqwcfpbsnoleydkkjmqv
+zihrtxaywcfpbsnoleydukzdqv
+zihrtxagwjfpbvnoleydukjmql
+zihrtxagwcfpbsnoleuduksmql
+zizrtxxgwcfpbsnoleydukzmqv
+zihrteagwcfpbsnobeydukjmqe
+zihrtxafwhfpbsgoleydukjmqv
+zitrtxagwcfpbsnoleyduvymqv
+zihrtxauwcfebsnoleygukjmqv
+zihrtxagwcfpbsnoleydubjrqh
+zihrtxauwmfpbsnoleydukjmqo
+zihrtxagwcdpbsnoleydukxmov
+zihrtmagwcfpbsnoleydukvmlv
+ziwrtxhgwcfpbsnoleodukjmqv
+zihytxagacfpbsnoceydukjmqv
+zihrtxagwcfpbsnolebdugjnqv
+zihrzxagwcfpbsnjleyduktmqv
+zihrtxygwcfpbinoleysukjmqv
+zihrtxagwcfpbmnoveydujjmqv
+zidrtxagwcfpbsnolexaukjmqv
+zshrtxagwcepbsnoxeydukjmqv
+yibrtxagwzfpbsnoleydukjmqv
+zehrtxagwclpbsnoleymukjmqv
+zihruxagwcfpbsnoleyhukwmqv
+zihrwxagwcfpbszolesdukjmqv
+zihrtpagwcfpbwnoleyuukjmqv
+ziortxagwcfpssnolewdukjmqv
+zohrtxagwcfpbwnoleydukjmjv
+zihrtxagwcfpbsnvleyduzcmqv
+zihrvxaghcfpbswoleydukjmqv
+zihrtxagwcfpssnolwydukzmqv
+zjhrttagwcfpbsnolfydukjmqv
+zihrtxagwjfpbsnoljydukpmqv
+ziwrtxagwczpbsnoljydukjmqv
+zinrtxagwcfpbvfoleydukjmqv
+zihrgragwcfpbsnoleydutjmqv
+zihrtxagwcfpbsnozeydukffqv
+zihrtxagwcfpbsmoleydxkumqv
+rihwtxagwcfpbsxoleydukjmqv
+ziqrtxagwcfpbsnqlevdukjmqv
+zihrtxagwchpbsnoleydufamqv
+sihrtxagwcfpbsnoleldukjmqp
+zihrtxagwcrpbsnoleydvojmqv
+zihrtxacwcfpbsnoweyxukjmqv
+zihrtxagwcfpbsnolajmukjmqv
+zzfrtxagwcfpbsnoleydukjmvv
+zixrtxagwcfpbqnoleydukjgqv
+zihitxaqwcfpbsnoleadukjmqv
+zilrtxagecfxbsnoleydukjmqv
+zihrtxagwcfpbypoleycukjmqv
+zidrtxagdtfpbsnoleydukjmqv
+lehrtxagxcfpbsnoleydukjmqv
+zihrlxagwcfpbsncneydukjmqv
+zihroxagbcspbsnoleydukjmqv
+zihrtxagwcfkzsnolemdukjmqv
+zihrtxagwcfpbsqeleydukkmqv
+zihrjxagwcfpesnolxydukjmqv
+zifrtxagwcfpbsooleydukkmqv
+zirwtxagwcfpbsnoleydukzmqv
+zjhntxagwcfpbsnoleydunjmqv
+ziorexagwcfpbsnoyeydukjmqv
+zhhrtlagwcfybsnoleydukjmqv
+zirrtxagwvfsbsnoleydukjmqv
+bihrtxagwofpbsnoleadukjmqv
+dihrtxagwcfpksnoleydukjlqv
+zihrrxagecfpbsnoleydukjmyv
+zijrtxagwmfpbsnoleyduljmqv
+zihrtxagwcfpbsnolecdukjpqs
+zchrtxagwcfpbsnolehdukjmwv
+rmhrtxagwcfpbsnoleydkkjmqv
+zohrotagwcfpbsnoleydukjmqv
+zihwtxagsifpbsnwleydukjmqv
+zihrtxagicfpbsnoleydukjxqn
+zihrtxsgwcfpbsntleydumjmqv
+zihrlxagzgfpbsnoleydukjmqv
+aihjtxagwdfpbsnoleydukjmqv
+zifrtxagwcfhbsnoleddukjmqv
+zihrtyagwcfpbsooleydtkjmqv
+zihrtxxgwcfpbsnolerhukjmqv
+zihqtxalwcfppsnoleydukjmqv
+zfkrvxagwcfpbsnoleydukjmqv
+zihptxagwcfpbseoleydukjmdv
+zihrtxagwcfpeonoleyiukjmqv
+nidrtxagwcfpbsnoleyhukjmqv
+zihrtxagwcfjbsnolsydukjmqg
+zghryxagwcfgbsnoleydukjmqv
+zihwtxagwcfpbsnoleydugjfqv
+zihryxagwjfpbsnoleydujjmqv
+zihrtxagwcfpbsnolekdukymql
+zfhrtxaownfpbsnoleydukjmqv
+zamrtxagwcfpbsnoleyduzjmqv
+ibhrtxagwcfpbsnoleydukjmfv
+zihrtxagwcfpssnoseydukjmuv
+zihrtxagwcfpbsnoljydukjhqs
+zihrtxagwqfmbsnoleidukjmqv
+zfdrtxagwchpbsnoleydukjmqv
+iihrtxagqcfpbsnoleydukjmqn
+mihrtxagwcfpbsqoleydukjbqv
+zihttxagwcfpbsnoleyduljmqk
+zzhrtxagwcfpzseoleydukjmqv
+zdhrtxagbcfpbsnoleyduyjmqv
+zihxtxagwcfpbsnolwrdukjmqv
+zghrtxagwcypbynoleydukjmqv
+zihrtxaiwcfppsnoleydukgmqv
+zitatxagwcfobsnoleydukjmqv
+znhrtxagwcfpysnoleydukjqqv
+zihrtxagwcfppsnoleoyukjmqv
+ziorgxagwcfpbsnolekdukjmqv
+zihrtxagwcfpbfnoleydwkjpqv
+zihrtxnrwcfpbsnolnydukjmqv
+rihrtxagwcfpbsnolepdjkjmqv
+zihrtxagwcfzbsnoceydukjmkv
+zihrtxagwcfpysnoaeidukjmqv
+zihrmxagwcfpbsnoleydukjmuq
+gihrtxagwcvpbsnoleydukcmqv
+zihrtxagocfpbsnoleydukqmnv
+zihrtxagwcfpesnoleyluklmqv
+zghrtxagwcfzbsnoleydukjmgv
+zihrtxugqqfpbsnoleydukjmqv
+zirrtcagwcfpbsnoleydfkjmqv
+zihitxagwcfpjsnoleydnkjmqv
+zihrtxqgwcfpbsnsleydukjmqy
+iihrtxagwyfpbsnoleydukjmqu
+zihrsxagwcfpbsnsleydukzmqv
+zihrtxawwcfpbsnoleydzkjmuv
+dihrkxagwcfpbsfoleydukjmqv
+zihrtxaqwcfpbvnoleydukjmqt
+zihntxdgwcfpbsnogeydukjmqv
+zihrtxagwcdpxsnolxydukjmqv
+zihrtxagwcfpbsaoleydunjaqv
+zihrtyagwcfpbsnoleyduqjmqt
+zihrtxagwtfpbsnoleoyukjmqv
+zihrjiagwcfpbsnobeydukjmqv
+zihrtxqgwcfpbsnoleydykdmqv
+zihrhxmgwcfpbsnmleydukjmqv
+zihatxlgwcfpbsnoleydukpmqv
+zihrtxcgwcspbsnoleypukjmqv
+zihrtkagqcfpbsaoleydukjmqv
+ziqrtxagwcfabsnoleydukrmqv
+zihwtxagwifpbsnwleydukjmqv
+zitrtnagwcfpbsnoleddukjmqv
+wihrtxagwcfpbsioyeydukjmqv
+zihrtxagwclpystoleydukjmqv
+zihmtxagwcfpbsnolfydukjmlv
+zihrtxagechpbsnoleydutjmqv
+zihrtxagwcfebsnolnydukjmuv
+zihrtxagncmpbsnoleydukjmqs
+zihrvxagocfpbsnoleydukcmqv
+zihrtxagwcjcbsnolejdukjmqv
+wihrtxagwcfpbogoleydukjmqv
+kivrtxagwcfpgsnoleydukjmqv
+zihrtxagwafpbhnoleydukjcqv
+zihrtwagtcfpbsnolxydukjmqv
+vihrtxagwcfpbsneletdukjmqv
+zihlnxagwcfpbsnoleydukjmqb
+zihrtxagwcfpbsnoleydukjuuc
+zihrtxagwcfpbwntleadukjmqv
+fihrtxagwcfpbsnoleydvkjmqw
+zihrtxaowcfpbunoleyduljmqv
+zthrtxagwcfpbtnoleydukomqv
+xihltxagwcfpbsnoleydukjrqv
+ziyrnxagwcfpbsnoleydukjmhv
+zihrtxazwcfpbsnileyduejmqv
+zihrtxagwcfibsnoliydukjmsv
+zihrtxggwcfpbsnoleydugjmqj
+zrartxagwcffbsnoleydukjmqv
+zidrtxaqwcfpbsnoleyduksmqv
+zirrtxagwcypbsnoleydtkjmqv
+rihrtxagwcrpbsnoheydukjmqv
+zihrtxagwcfpbsnoleydpkjmzs
+zihrtxagbcfpbsnodbydukjmqv
+fihrtxaqwcfpbsnolaydukjmqv
+vihrtxbgwcfpbsnolemdukjmqv
+zihrtxapwcfubsnoleydukmmqv
+zihrtxagwcfpbgnolfydunjmqv
+zihrtxagwcypbsnokeyduvjmqv
+zihntxagwcfpbsnoieydukbmqv
+zihbtxagwkfpbsnolpydukjmqv
+zihrtxagwcfibsnoleydikjmqb
+jihrtxvgwcfpbsnoleydukjmqp
+zihrtxagwcfpbjnqleydukjmlv
+zibrtxagwcfpbzvoleydukjmqv
+zihrtxagwafgbsnbleydukjmqv
+zihjctagwcfpbsnoleydukjmqv
+zahrtxagwcepbsnoleddukjmqv
+zihetxagwcfpbsnoleydumjmsv
+zihrtvagwcfpbbnoleydukdmqv
+zbhrxxagwkfpbsnoleydukjmqv
+jfhrtxagwcftbsnoleydukjmqv
+yihrtxagwcfvbsnoleyduksmqv
+ziartxaewcfpbsnoleyduhjmqv
+zihrtxagwcfpbsnoozyduzjmqv
+cihotxagwcfpysnoleydukjmqv
+zihrtxagwcfpusnolwydxkjmqv
+zihrtxagwcfpbsnoleedmgjmqv
+zihrtxaghcfpmsnoleydukqmqv
+ziortxagwcfpbsboleidukjmqv
+zihrtxagwcfybsnoleyqxkjmqv
+zihrtxamwcfpbsngleydukjmqx
+zihrtxagwcfpbsnoleyduusmqu
+zihftxagwcfpssnwleydukjmqv
+zihrtxagwcfkbsnomeydukjmsv
+zihrtxagwcvpbsnooeydwkjmqv
+zihrtxagwcfpbsnoleycekumqv
+jahrtxagwcfpbsnoleydukjmmv
+zihrtxabwcfpbsnzheydukjmqv
+zihrtxagwctpbsnoleydwkjmhv
+zihrtpagwcfpbsnoleydzkjmqh
+zihwtxagwcfpbsnollydukjrqv
+zihrtxagwcfpusnoleydsvjmqv
+zibrtxagwcfpasnoleydukjmbv
+zchrtmagwcfpbsnoleydukjmwv
+ziertxbgwyfpbsnoleydukjmqv
+zitrtxagwcfpbhnoweydukjmqv
+zisrtxkgwcfpbsnopeydukjmqv
+zihrtxcgwdfpbynoleydukjmqv
+iihrtxajwcvpbsnoleydukjmqv
+zihuwxapwcfpbsnoleydukjmqv
+zihrtxngwcfqbsnoleyiukjmqv
+ziqrtxagjcfpbsnoleydukjmqi
+zifrtxarwctpbsnoleydukjmqv
+zihxgxagwcfpbpnoleydukjmqv
+giprtxagwcdpbsnoleydukjmqv
+zihrtxagwmfpbsnodeydukjbqv
+`
